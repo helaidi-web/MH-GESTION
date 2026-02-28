@@ -1,16 +1,10 @@
 {
   "version": 2,
   "public": true,
-  "routes": [
-    {
-      "src": "/(?!.*\\.)",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
+  "buildCommand": "next build",
+  "env": {
+    "NODE_ENV": "production"
+  },
   "headers": [
     {
       "source": "/(.*)",
@@ -33,6 +27,5 @@
         }
       ]
     }
-  ],
-  "buildCommand": "echo 'Static files ready for deployment'"
+  ]
 }

@@ -1,6 +1,6 @@
 # 🎯 MH - Gestion de Produits Premium
 
-Une application web magnifique et moderne pour la gestion complète de produits et de clients.
+Une application web magnifique et moderne pour la gestion complète de produits et de clients, construite avec **Next.js** et React.
 
 ## ✨ Fonctionnalités Principales
 
@@ -14,6 +14,7 @@ Une application web magnifique et moderne pour la gestion complète de produits 
 - Recherche en temps réel
 - Affichage par catégorie avec emojis
 - Détails complets accessibles
+- Sauvegarde automatique en localStorage
 
 ### 👥 Gestion des Clients
 - Visualisation des clients uniques
@@ -31,43 +32,117 @@ Une application web magnifique et moderne pour la gestion complète de produits 
 - Animations fluides et transitions
 - Responsive design (mobile, tablette, desktop)
 - Interface utilisateur intuitive
+- Emojis pour meilleure UX
 
 ## 💾 Stockage
 - Sauvegarde automatique dans localStorage
-- Données persistantes
+- Données persistantes dans le navigateur
 
-## 🚀 Déploiement
+## 🚀 Installation & Démarrage
 
-### Sur Vercel
+### Prérequis
+- Node.js 16+ 
+- npm ou yarn
+
+### Installation locale
 ```bash
-npm i -g vercel
+# Cloner le repo
+git clone https://github.com/helaidi-web/MH-GESTION.git
+cd MH-GESTION
+
+# Installer les dépendances
+npm install
+
+# Démarrer le serveur de développement
+npm run dev
+
+# Ouvrir http://localhost:3000 dans le navigateur
+```
+
+### Build pour production
+```bash
+npm run build
+npm start
+```
+
+## 🌐 Déploiement sur Vercel
+
+### Option 1 : Automatique (Recommandé)
+1. Allez sur https://vercel.com
+2. Connectez-vous avec GitHub
+3. Importez le repo `MH-GESTION`
+4. Cliquez sur "Deploy"
+
+### Option 2 : CLI
+```bash
+npm install -g vercel
 vercel
 ```
 
-Ou connectez simplement votre repo GitHub à Vercel depuis https://vercel.com
-
-### Localement
-1. Clonez le repo
-2. Ouvrez `index.html` dans votre navigateur
-3. C'est prêt !
+> Le site sera accessible à : `https://[votre-app].vercel.app`
 
 ## 📁 Structure du Projet
 ```
 MH-GESTION/
-├── index.html      # Page principale
-├── styles.css      # Feuille de styles
-├── script.js       # Logique JavaScript
-├── vercel.json    # Configuration Vercel
-├── .gitignore     # Fichiers à ignorer
-└── README.md      # Ce fichier
+├── app/
+│   ├── layout.tsx          # Layout root
+│   ├── page.tsx            # Page principale (composant client)
+│   └── globals.css         # Styles globaux
+├── public/                 # Assets statiques
+├── package.json            # Dépendances & scripts
+├── next.config.js         # Configuration Next.js
+├── tsconfig.json          # Configuration TypeScript
+├── vercel.json           # Configuration Vercel
+├── .eslintrc.json        # Configuration ESLint
+├── .gitignore            # Fichiers à ignorer
+└── README.md             # Ce fichier
 ```
 
-## 🔧 Technologie
-- HTML5
-- CSS3 (avec gradients, animations, flexbox, grid)
-- JavaScript vanilla (Pas de frameworks)
+## 🔧 Technologie Stack
+- **Framework**: Next.js 14
+- **Runtime**: React 18+
+- **Langage**: TypeScript
+- **Styling**: CSS3 vanilla (gradients, animations, flexbox, grid)
+- **State**: React Hooks (useState, useEffect)
+- **Storage**: localStorage
+- **Hosting**: Vercel
+
+## 📜 Scripts NPM
+```bash
+npm run dev       # Mode développement (http://localhost:3000)
+npm run build     # Build production
+npm start         # Démarrer le serveur production
+npm run lint      # Exécuter ESLint
+```
 
 ## 📱 Navigateurs Supportés
+- Chrome/Chromium (dernières versions)
+- Firefox (dernières versions)
+- Safari (dernières versions)
+- Edge (dernières versions)
+
+## 🔐 Sécurité
+- Headers de sécurité configurés dans vercel.json
+- CSP activé
+- XSS Protection activé
+- No sensitive data in client code
+
+## 📝 Configuration Environnement
+Le projet utilise des variables d'environnement Vercel (voir vercel.json):
+- `NODE_ENV`: production
+
+## 🤝 Contribution
+Les contributions sont bienvenues ! N'hésitez pas à forker et créer des pull requests.
+
+## 📄 Licence
+MIT
+
+---
+
+⭐ **N'oublie pas de mettre une star si tu aimes le projet !**
+
+🌟 Rendez belle votre gestion de produits avec MH !
+
 - Chrome/Chromium (dernières versions)
 - Firefox (dernières versions)
 - Safari (dernières versions)
