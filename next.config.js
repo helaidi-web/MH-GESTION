@@ -7,6 +7,24 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   images: {
     remotePatterns: [],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60,
+  },
+  headers: async () => {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+        ],
+      },
+    ];
+  },
+  experimental: {
+    optimizePackageImports: ['react', 'react-dom'],
   },
 };
 
