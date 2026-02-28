@@ -5,6 +5,9 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
+  images: {
+    remotePatterns: [],
+  },
 };
 
 module.exports = nextConfig;

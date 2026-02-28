@@ -4,6 +4,7 @@ node_modules/
 *.log
 .env
 .env.local
+.env.*.local
 .vercel/
 dist/
 build/
@@ -12,3 +13,6 @@ build/
 *.swp
 *.swo
 *~
+.next/
+out/
+.turbo/
