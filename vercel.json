@@ -1,17 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "echo 'Build completed'",
-  "public": true,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    },
-    {
-      "src": "/(?!.*\\.)",
-      "dest": "/index.html"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
