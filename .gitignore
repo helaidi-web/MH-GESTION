@@ -1,0 +1,14 @@
+# Git ignore files
+node_modules/
+.DS_Store
+*.log
+.env
+.env.local
+.vercel/
+dist/
+build/
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

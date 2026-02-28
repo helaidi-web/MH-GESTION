@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MH - Gestion de Produits Premium</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Premium -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🎯</span>
+                    <h1>MH</h1>
+                    <p>Gestion Premium de Produits</p>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalProducts">0</span>
+                        <span class="stat-label">Produits</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalValue">0€</span>
+                        <span class="stat-label">Valeur</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-navigation">
+            <button class="tab-btn active" data-tab="dashboard">📊 Tableau de Bord</button>
+            <button class="tab-btn" data-tab="products">📦 Produits</button>
+            <button class="tab-btn" data-tab="add">➕ Ajouter Produit</button>
+            <button class="tab-btn" data-tab="clients">👥 Clients</button>
+        </nav>
+
+        <!-- Dashboard Tab -->
+        <section id="dashboard" class="tab-content active">
+            <div class="dashboard-grid">
+                <div class="dashboard-card sales">
+                    <div class="card-header">
+                        <h3>💰 Ventes Totales</h3>
+                        <span class="refresh-icon">🔄</span>
+                    </div>
+                    <p class="card-value" id="dashSales">0€</p>
+                    <div class="card-chart" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                </div>
+
+                <div class="dashboard-card inventory">
+                    <div class="card-header">
+                        <h3>📦 Inventaire</h3>
+                        <span class="refresh-icon">🔄</span>
+                    </div>
+                    <p class="card-value" id="dashInventory">0 articles</p>
+                    <div class="card-chart" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                </div>
+
+                <div class="dashboard-card clients">
+                    <div class="card-header">
+                        <h3>👥 Clients Actifs</h3>
+                        <span class="refresh-icon">🔄</span>
+                    </div>
+                    <p class="card-value" id="dashClients">0</p>
+                    <div class="card-chart" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                </div>
+
+                <div class="dashboard-card recent">
+                    <div class="card-header">
+                        <h3>⏱️ Derniers Ajouts</h3>
+                        <span class="refresh-icon">🔄</span>
+                    </div>
+                    <div class="recent-list" id="recentList">
+                        <p style="color: #999;">Aucun produit récent</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Tab -->
+        <section id="products" class="tab-content">
+            <div class="products-header">
+                <h2>📦 Liste des Produits</h2>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="🔍 Rechercher un produit...">
+                </div>
+            </div>
+            <div class="products-container" id="productsContainer">
+                <div class="empty-state">
+                    <span style="font-size: 3rem;">📭</span>
+                    <p>Aucun produit trouvé. Commencez par en ajouter un !</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Product Tab -->
+        <section id="add" class="tab-content">
+            <div class="form-container">
+                <h2>➕ Ajouter un Nouveau Produit</h2>
+                <form id="productForm" class="product-form">
+                    <div class="form-grid">
+                        <!-- Informations du Produit -->
+                        <div class="form-section">
+                            <h3>📋 Informations du Produit</h3>
+                            <div class="form-group">
+                                <label for="productName">Nom du Produit *</label>
+                                <input type="text" id="productName" required placeholder="Ex: T-Shirt Premium">
+                            </div>
+                            <div class="form-group">
+                                <label for="productNumber">Numéro de Produit *</label>
+                                <input type="text" id="productNumber" required placeholder="Ex: MH-001-2024">
+                            </div>
+                            <div class="form-group">
+                                <label for="productDesc">Description</label>
+                                <textarea id="productDesc" rows="4" placeholder="Décrivez votre produit en détail..."></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="productPrice">Prix (€) *</label>
+                                    <input type="number" id="productPrice" required step="0.01" placeholder="0.00">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="productQuantity">Quantité *</label>
+                                    <input type="number" id="productQuantity" required min="1" placeholder="10">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory">Catégorie</label>
+                                <select id="productCategory">
+                                    <option value="Vêtements">Vêtements</option>
+                                    <option value="Électronique">Électronique</option>
+                                    <option value="Accessoires">Accessoires</option>
+                                    <option value="Décoration">Décoration</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Informations Client -->
+                        <div class="form-section">
+                            <h3>👥 Informations Client</h3>
+                            <div class="form-group">
+                                <label for="clientName">Nom du Client</label>
+                                <input type="text" id="clientName" placeholder="Ex: Jean Dupont">
+                            </div>
+                            <div class="form-group">
+                                <label for="clientEmail">Email</label>
+                                <input type="email" id="clientEmail" placeholder="exemple@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="clientPhone">Téléphone</label>
+                                <input type="tel" id="clientPhone" placeholder="+33 6 XX XX XX XX">
+                            </div>
+                            <div class="form-group">
+                                <label for="clientAddress">Adresse</label>
+                                <input type="text" id="clientAddress" placeholder="123 Rue de la Paix">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group flex-1">
+                                    <label for="clientCity">Ville</label>
+                                    <input type="text" id="clientCity" placeholder="Paris">
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label for="clientCountry">Pays</label>
+                                    <input type="text" id="clientCountry" placeholder="France">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informations de Paiement -->
+                        <div class="form-section">
+                            <h3>💳 Informations de Paiement</h3>
+                            <div class="form-group">
+                                <label for="paymentMode">Mode de Paiement *</label>
+                                <select id="paymentMode" required>
+                                    <option value="">Sélectionner un mode</option>
+                                    <option value="Carte Bancaire">Carte Bancaire</option>
+                                    <option value="Virement">Virement Bancaire</option>
+                                    <option value="PayPal">PayPal</option>
+                                    <option value="Espèces">Espèces</option>
+                                    <option value="Chèque">Chèque</option>
+                                    <option value="Crypto-monnaie">Crypto-monnaie</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="invoiceNumber">Numéro de Facture</label>
+                                <input type="text" id="invoiceNumber" placeholder="Auto-généré">
+                            </div>
+                            <div class="form-group">
+                                <label for="transactionDate">Date de Transaction</label>
+                                <input type="date" id="transactionDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="orderStatus">Statut de la Commande</label>
+                                <select id="orderStatus">
+                                    <option value="Pending">En Attente</option>
+                                    <option value="Processing">En Cours</option>
+                                    <option value="Shipped">Expédié</option>
+                                    <option value="Delivered">Livré</option>
+                                    <option value="Completed">Complété</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="reset" class="btn btn-secondary">🔄 Réinitialiser</button>
+                        <button type="submit" class="btn btn-primary">➕ Ajouter le Produit</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Clients Tab -->
+        <section id="clients" class="tab-content">
+            <div class="clients-header">
+                <h2>👥 Gestion des Clients</h2>
+                <div class="search-bar">
+                    <input type="text" id="clientSearchInput" placeholder="🔍 Rechercher un client...">
+                </div>
+            </div>
+            <div class="clients-container" id="clientsContainer">
+                <div class="empty-state">
+                    <span style="font-size: 3rem;">👤</span>
+                    <p>Aucun client enregistré.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal pour éditer/voir les détails -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
