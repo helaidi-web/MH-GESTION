@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 
 interface Product {
     id: number;
@@ -22,6 +22,52 @@ interface Product {
     orderStatus: string;
     createdAt: string;
 }
+
+interface ProductCardProps {
+    product: Product;
+    onEdit: () => void;
+    onDelete: () => void;
+    onView: () => void;
+}
+
+interface ClientCardProps {
+    client: Product;
+}
+
+interface ProductDetailsProps {
+    product: Product;
+}
+
+interface DetailItemProps {
+    label: string;
+    value: string | number | undefined;
+}
+
+interface ProductFormProps {
+    onSubmit: (formData: Partial<Product>) => void;
+    initialData?: Product;
+    isEditing: boolean;
+    onCancel: () => void;
+}
+
+type FormData = Partial<Product> & {
+    productName: string;
+    productNumber: string;
+    productDesc: string;
+    productPrice: string | number;
+    productQuantity: string | number;
+    productCategory: string;
+    clientName: string;
+    clientEmail: string;
+    clientPhone: string;
+    clientAddress: string;
+    clientCity: string;
+    clientCountry: string;
+    paymentMode: string;
+    invoiceNumber: string;
+    transactionDate: string;
+    orderStatus: string;
+};
 
 export default function Home() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -291,9 +337,9 @@ export default function Home() {
     );
 }
 
-function ProductCard({ product, onEdit, onDelete, onView }: any) {
-    const getCategoryEmoji = (category: string) => {
-        const emojis: any = {
+function ProductCard({ product, onEdit, onDelete, onView }: ProductCardProps): ReactNode {
+    const getCategoryEmoji = (category: string): string => {
+        const emojis: Record<string, string> = {
             'Vêtements': '👕',
             'Électronique': '📱',
             'Accessoires': '👜',
@@ -321,8 +367,8 @@ function ProductCard({ product, onEdit, onDelete, onView }: any) {
     );
 }
 
-function ClientCard({ client }: any) {
-    const getInitials = (name: string) => {
+function ClientCard({ client }: ClientCardProps): ReactNode {
+    const getInitials = (name: string): string => {
         if (!name) return '👤';
         return name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
     };
@@ -339,7 +385,7 @@ function ClientCard({ client }: any) {
     );
 }
 
-function ProductDetails({ product }: any) {
+function ProductDetails({ product }: ProductDetailsProps): ReactNode {
     return (
         <div>
             <h3 style={{ marginBottom: '20px', color: 'var(--primary-color)' }}>📦 Détails du Produit</h3>
@@ -368,7 +414,7 @@ function ProductDetails({ product }: any) {
     );
 }
 
-function DetailItem({ label, value }: any) {
+function DetailItem({ label, value }: DetailItemProps): ReactNode {
     return (
         <div className="modal-detail">
             <div className="modal-label">{label}</div>
@@ -377,8 +423,8 @@ function DetailItem({ label, value }: any) {
     );
 }
 
-function ProductForm({ onSubmit, initialData, isEditing, onCancel }: any) {
-    const [formData, setFormData] = useState(initialData || {
+function ProductForm({ onSubmit, initialData, isEditing, onCancel }: ProductFormProps): ReactNode {
+    const defaultFormData: FormData = {
         productName: '',
         productNumber: '',
         productDesc: '',
@@ -395,29 +441,20 @@ function ProductForm({ onSubmit, initialData, isEditing, onCancel }: any) {
         invoiceNumber: '',
         transactionDate: new Date().toISOString().split('T')[0],
         orderStatus: 'Pending',
-    });
+    };
 
-    const handleChange = (e: any) => {
+    const [formData, setFormData] = useState<FormData>(initialData || defaultFormData);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         onSubmit(formData);
-        setFormData({
-            productName: '',
-            productNumber: '',
-            productDesc: '',
-            productPrice: '',
-            productQuantity: '',
-            productCategory: 'Vêtements',
-            clientName: '',
-            clientEmail: '',
-            clientPhone: '',
-            clientAddress: '',
-            clientCity: '',
-            clientCountry: '',
+        setFormData(defaultFormData);
+    };
             paymentMode: '',
             invoiceNumber: '',
             transactionDate: new Date().toISOString().split('T')[0],
