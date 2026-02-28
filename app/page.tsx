@@ -44,13 +44,13 @@ interface DetailItemProps {
 }
 
 interface ProductFormProps {
-    onSubmit: (formData: Partial<Product>) => void;
-    initialData?: Product;
+    onSubmit: (formData: FormData) => void;
+    initialData?: FormData;
     isEditing: boolean;
     onCancel: () => void;
 }
 
-type FormData = Partial<Product> & {
+type FormData = {
     productName: string;
     productNumber: string;
     productDesc: string;
@@ -75,7 +75,7 @@ export default function Home() {
     const [searchQuery, setSearchQuery] = useState('');
     const [clientSearchQuery, setClientSearchQuery] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [modalContent, setModalContent] = useState<any>(null);
+    const [modalContent, setModalContent] = useState<Product | null>(null);
     const [editingId, setEditingId] = useState<number | null>(null);
 
     // Load products from localStorage
@@ -92,19 +92,37 @@ export default function Home() {
         localStorage.setItem('mh_products', JSON.stringify(newProducts));
     };
 
-    const handleAddProduct = (formData: any) => {
+    const handleAddProduct = (formData: FormData) => {
+        const productData: Product = {
+            productName: formData.productName,
+            productNumber: formData.productNumber,
+            productDesc: formData.productDesc,
+            productPrice: typeof formData.productPrice === 'string' ? parseFloat(formData.productPrice) : formData.productPrice,
+            productQuantity: typeof formData.productQuantity === 'string' ? parseInt(formData.productQuantity) : formData.productQuantity,
+            productCategory: formData.productCategory,
+            clientName: formData.clientName,
+            clientEmail: formData.clientEmail,
+            clientPhone: formData.clientPhone,
+            clientAddress: formData.clientAddress,
+            clientCity: formData.clientCity,
+            clientCountry: formData.clientCountry,
+            paymentMode: formData.paymentMode,
+            invoiceNumber: formData.invoiceNumber,
+            transactionDate: formData.transactionDate,
+            orderStatus: formData.orderStatus,
+            createdAt: new Date().toISOString(),
+            id: 0,
+        };
+
         if (editingId) {
-            const updated = products.map(p => p.id === editingId ? { ...p, ...formData } : p);
+            const updated = products.map(p => p.id === editingId ? { ...p, ...productData, id: p.id } : p);
             saveProducts(updated);
             setEditingId(null);
         } else {
-            const newProduct = {
-                id: Date.now(),
-                ...formData,
-                createdAt: new Date().toISOString(),
-            };
-            saveProducts([newProduct, ...products]);
+            productData.id = Date.now();
+            saveProducts([productData, ...products]);
         }
+        setShowModal(false);
     };
 
     const handleDeleteProduct = (id: number) => {
@@ -428,8 +446,8 @@ function ProductForm({ onSubmit, initialData, isEditing, onCancel }: ProductForm
         productName: '',
         productNumber: '',
         productDesc: '',
-        productPrice: '',
-        productQuantity: '',
+        productPrice: 0,
+        productQuantity: 0,
         productCategory: 'Vêtements',
         clientName: '',
         clientEmail: '',
@@ -454,12 +472,6 @@ function ProductForm({ onSubmit, initialData, isEditing, onCancel }: ProductForm
         e.preventDefault();
         onSubmit(formData);
         setFormData(defaultFormData);
-    };
-            paymentMode: '',
-            invoiceNumber: '',
-            transactionDate: new Date().toISOString().split('T')[0],
-            orderStatus: 'Pending',
-        });
     };
 
     return (
@@ -690,8 +702,8 @@ function ProductForm({ onSubmit, initialData, isEditing, onCancel }: ProductForm
                                 productName: '',
                                 productNumber: '',
                                 productDesc: '',
-                                productPrice: '',
-                                productQuantity: '',
+                                productPrice: 0,
+                                productQuantity: 0,
                                 productCategory: 'Vêtements',
                                 clientName: '',
                                 clientEmail: '',
