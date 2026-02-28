@@ -1,5 +1,16 @@
 {
   "version": 2,
+  "public": true,
+  "routes": [
+    {
+      "src": "/(?!.*\\.)",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -15,8 +26,13 @@
         {
           "key": "X-Frame-Options",
           "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
         }
       ]
     }
-  ]
+  ],
+  "buildCommand": "echo 'Static files ready for deployment'"
 }
